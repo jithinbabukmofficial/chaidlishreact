@@ -583,391 +583,218 @@ footer {
 }
 
 
-/* --- MOBILE RESPONSIVE STYLES (Native App View) --- */
+/* --- MOBILE RESPONSIVE STYLES (Standard Website View) --- */
 @media (max-width: 768px) {
-    /* --- GENERAL MOBILE STYLES (App Feel) --- */
-    /* Header (65px) + CategoryNav (50px) = 115px */
-    body {
-        padding-top: 115px; 
-        padding-bottom: 65px; 
-        background-color: #f8f8f8; 
+
+    /* 1. Layout & Container Adjustments */
+    .container {
+        width: 90%; /* Give it some breathing room on edges */
+        padding: 0;
     }
 
-    /* Hide desktop elements */
-    .nav-links, .hamburger {
-        display: none !important;
+    section {
+        padding: 40px 0; /* Reduce vertical spacing on mobile */
     }
-    #hero, #intro, #highlights, #about, #gallery, footer {
-        display: none;
+
+    .section-title h2 {
+        font-size: 1.8rem; /* Smaller headings */
     }
-    
+
+    /* 2. Header & Navigation (Hamburger Menu) */
     header {
-        position: fixed;
-        top: 0;
-        width: 100%;
-        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
-        padding: 10px 0;
+        position: relative; /* No longer fixed */
+        padding: 15px 0;
     }
-    .logo {
+
+    .hamburger {
+        display: block; /* Show the hamburger icon */
         font-size: 1.5rem;
+        cursor: pointer;
+        color: var(--secondary);
     }
-    
-    /* --- CATEGORY NAVIGATION BAR (New Fixed Bar) - KEPT AS REQUESTED --- */
-    .category-nav-scroll {
-        position: fixed;
-        top: 65px; 
+
+    /* The Dropdown Menu Logic */
+    .nav-links {
+        position: absolute;
+        top: 100%; /* Push it right below the header */
         left: 0;
         width: 100%;
         background-color: white;
-        z-index: 50;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        overflow-x: scroll; 
-        -webkit-overflow-scrolling: touch; 
+        flex-direction: column; /* Stack links vertically */
+        align-items: center;
+        gap: 0;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        overflow: hidden;
+        max-height: 0; /* Hidden by default */
+        transition: max-height 0.3s ease-out;
+        z-index: 100;
     }
-    
-    .category-nav-scroll::-webkit-scrollbar {
-        display: none; 
+
+    /* Class to add via React state when hamburger is clicked */
+    .nav-links.active {
+        max-height: 300px; /* Open dropdown */
+        padding-bottom: 20px;
+    }
+
+    .nav-links li {
+        width: 100%;
+        text-align: center;
+        padding: 15px 0;
+        border-bottom: 1px solid #eee;
+    }
+
+    .nav-links button.cart-btn {
+        margin-top: 10px;
+        width: 80%; /* Make cart button big on mobile menu */
+    }
+
+    /* 3. Hero / Slider Section */
+    #hero {
+        height: auto;
+        min-height: auto;
+        padding-top: 20px;
+    }
+
+    /* Adjust the Slider image height for mobile */
+    .slider-image {
+        height: 300px !important; /* Overwrite the 500px desktop height */
+    }
+
+    /* 4. Menu Grid (Stack items vertically) */
+    .category-content-grid {
+        display: grid;
+        grid-template-columns: 1fr; /* Single column */
+        gap: 20px;
+    }
+
+    .menu-card {
+        display: flex;
+        flex-direction: row; /* Keep image left, text right OR stack them */
+        align-items: center;
+        padding: 15px;
+    }
+
+    /* 5. Category Navigation (Horizontal Scroll) 
+       This is good UX for mobile web, keeping it but removing "Fixed" positioning */
+    .category-nav-scroll {
+        position: sticky; /* Sticks to top only when scrolling past */
+        top: 0;
+        background: white;
+        z-index: 40;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        margin-bottom: 20px;
     }
 
     .category-nav-content {
-        display: flex;
-        padding: 10px 15px;
-        gap: 15px;
-        min-width: max-content; 
+        justify-content: flex-start; /* Align left to allow scrolling */
     }
 
-    .category-nav-content a {
-        background: #f0f0f0;
-        color: var(--dark);
-        padding: 6px 15px;
-        border-radius: 20px;
-        font-size: 0.85rem;
-        font-weight: 600;
-        white-space: nowrap; 
-        transition: background-color 0.2s, color 0.2s;
-    }
-
-    .category-nav-content a:active,
-    .category-nav-content a:focus,
-    .category-nav-content a:hover {
-        background-color: var(--primary);
-        color: white;
-    }
-
-    /* --- MOBILE MENU/CATEGORY VIEW --- */
-    #menu {
-        padding: 0; 
-        background-color: #f8f8f8;
-    }
-    .section-title {
-        display: none; 
-    }
-    
-    #menu .container {
-        padding: 15px;
-    }
-
-    /* Adjust category container for natural flow */
-    .menu-category {
-        margin-bottom: 40px; /* Space between categories */
-        padding-top: 0; 
-        margin-top: 0; 
-    }
-    
-    /* Category Title (Now scrolls normally, removed sticky/floating effect) */
-    .menu-category h3 {
-        position: static; 
-        top: auto; 
-        z-index: auto;
-        
-        background-color: transparent; /* No need for background */
-        padding: 0 0 10px 0; 
-        margin: 0 0 25px 0; /* Added spacing below the title */
-        font-size: 1.5rem;
-        border-bottom: 2px solid var(--primary);
-        box-shadow: none; 
-        color: var(--secondary);
-        display: block; 
-        width: 100%;
-    }
-    
-    .category-content-grid {
-        gap: 10px; 
-    }
-    
-    /* Menu Item Card Polish */
-    .menu-card {
-        padding: 15px;
-        border-radius: 12px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
-    
-    /* Price and Add/Controls alignment on Mobile */
-    .price-and-btn {
-        gap: 10px;
-        align-items: center;
-    }
-
-    .price-spacer {
-        /* Ensures price aligns properly when live controls are shown */
-        margin-right: auto;
-    }
-
-    /* Mobile Add Button Styling */
-    .add-to-cart-btn {
-        padding: 6px 12px;
-        font-size: 0.85rem;
-        border-radius: 20px; 
-    }
-    
-    /* Live Quantity Controls Styling (Menu) */
-    .item-live-controls {
-        display: flex;
-        align-items: center;
-        border: 1px solid var(--primary); 
-        border-radius: 20px;
-        overflow: hidden;
-        height: 35px; 
-    }
-
-    .item-live-controls button {
-        background-color: var(--primary);
-        color: white;
-        border: none;
-        width: 35px;
-        height: 100%;
-        padding: 0;
-        cursor: pointer;
-        transition: background-color 0.1s;
-    }
-
-    .item-live-controls button:active {
-        background-color: var(--dark);
-    }
-    
-    .item-live-controls span {
-        padding: 0 10px;
-        font-weight: 700;
-        font-size: 1rem;
-        color: var(--dark);
-        min-width: 25px; 
-        text-align: center;
-    }
-
-    /* --- MOBILE NAV BAR STYLES --- */
+    /* 6. Hide "App" specific elements if they exist in HTML */
     .mobile-bottom-nav {
-        display: flex; 
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 65px;
-        background-color: white;
-        /* Stronger shadow for floating effect */
-        box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.15); 
-        z-index: 1000;
-        justify-content: space-around;
-        align-items: center;
-        padding: 0 5px; /* Reduced padding */
+        display: none !important;
     }
+}
 
-    .mobile-bottom-nav button {
-        flex: 1;
-        background: none;
-        border: none;
-        color: #999;
-        font-weight: 600;
-        padding: 5px 0;
-        display: flex;
-        flex-direction: column; /* Icon stacked above text */
-        align-items: center;
-        gap: 2px; /* Small gap between icon and text */
-        font-size: 0.7rem; /* Smaller, standard mobile label size */
-    }
 
-    .mobile-bottom-nav button:focus {
-        outline: none;
-        background-color: #fafafa;
-    }
+/* --- Carousel Styles for MenuSlider --- */
 
-    .mobile-bottom-nav button.active {
-        color: var(--primary);
-    }
+.menu-slider-wrapper {
+    /* Optional: Add some padding/margin around the component */
+    padding: 20px 0;
+}
 
-    /* Styling for the Cart icon wrapper and badge */
-    .cart-icon-wrapper {
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        /* Ensure icon size is consistent */
-        height: 20px; 
-        width: 20px; 
-    }
-    
-    .cart-count-badge {
-        /* Badge style: Small red dot with white count */
-        position: absolute;
-        top: -5px; 
-        right: -5px; /* Positioned on top-right of the icon */
-        background-color: #e74c3c; /* Red for high visibility */
-        color: white;
-        border-radius: 50%;
-        min-width: 18px;
-        height: 18px;
-        font-size: 0.7rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 700;
-        padding: 2px;
-        line-height: 1;
-    }
-    
-    /* --- FULL PAGE CART VIEW (Fixes & New Design) --- */
-    .cart-full-page-wrapper {
-        width: 100%;
-        min-height: calc(100vh - 65px); 
-        padding: 0;
-        margin-bottom: 0; 
-        background-color: #f8f8f8; 
-    }
-    .cart-full-page {
-        padding-bottom: 300px; 
-        padding-top: 20px;
-        padding-left: 15px;
-        padding-right: 15px;
-    }
+.menu-carousel {
+    /* Set the stage for the slides */
+    position: relative;
+    overflow: hidden; /* Hide slides that are out of view */
+    border-radius: 10px;
+}
 
-    /* Enhanced Cart Item Design */
-    .cart-item {
-        background-color: white;
-        padding: 15px;
-        border-radius: 8px;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); 
-        margin-bottom: 10px;
-        border-bottom: none !important; 
-    }
-    
-    /* FIX: Ensure item details is flexible but controls/total are fixed */
-    .cart-item .item-details {
-        flex: 1 1 auto; /* Grow, but allow it to shrink */
-        overflow: hidden; 
-        white-space: nowrap;
-        text-overflow: ellipsis; /* Truncate long names */
-        margin-right: 10px;
-    }
-    
-    .item-total {
-        width: 65px; /* Fixed width for price (£XX.XX) */
-        flex-shrink: 0; /* Prevents shrinking */
-        text-align: right; 
-    }
+.menu-slider-track {
+    /* Make the track wide enough for all items */
+    display: flex;
+    /* This makes the transition smooth when the track moves */
+    transition: transform 0.5s ease-in-out;
+    width: 100%; /* Important: The overall track width will be (totalItems * 100%) and then moved */
+}
 
-    /* FIX: Tighter Item Controls for Cart (different from Menu controls) */
-    .cart-item .item-controls {
-        flex-shrink: 0;
-        margin-right: 10px; 
-        gap: 5px;
-    }
+.slider-item {
+    /* Each item takes up 100% of the carousel view */
+    min-width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    padding: 15px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+}
 
-    .cart-item .item-controls button {
-        width: 26px; /* Slightly smaller button for tighter fit */
-        height: 26px;
-        background-color: var(--primary); 
-        color: white;
-        border: none;
-        border-radius: 4px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0;
-    }
-    
-    .cart-item .item-controls span {
-        font-weight: 700;
-        font-size: 0.9rem;
-        min-width: 15px; /* Ensures space for '1' or '10' */
-        text-align: center;
-        color: var(--dark);
-    }
-    
-    .close-btn {
-        position: absolute;
-        top: 15px;
-        right: 15px;
-        font-size: 1.5rem;
-        z-index: 10;
-    }
+.slider-image {
+    /* The image placeholder style is in the JSX, but keeping this for structure */
+    display: block;
+    margin-bottom: 15px;
+}
 
-    /* Fixed Checkout Section Styling */
-    .cart-footer {
-        padding: 20px;
-        background-color: white; 
-        border-radius: 10px 10px 0 0;
-        box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.1);
-        border-top: 1px solid #eee; 
-        position: fixed; 
-        bottom: 65px; 
-        width: 100%;
-        left: 0;
-        box-sizing: border-box;
-    }
+.slider-details strong {
+    display: block;
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+}
 
-    /* Segmented Toggle Switch Styling */
-    .order-type-toggle {
-        display: flex;
-        background-color: #e0e0e0;
-        border-radius: 10px;
-        padding: 3px;
-        margin-bottom: 20px; 
-    }
-    .order-type-toggle button {
-        flex: 1;
-        border: none;
-        background-color: transparent;
-        padding: 10px 0;
-        font-weight: 700;
-        font-size: 1rem;
-        color: var(--text);
-        border-radius: 8px;
-        transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
-        cursor: pointer;
-    }
-    .order-type-toggle button.active {
-        background-color: white;
-        color: var(--secondary); 
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-    
-    /* Customer Detail Input Group Styling */
-    .identifier-group {
-        padding: 15px;
-        background-color: #f8f8f8;
-        border-radius: 8px;
-        border: 1px solid #eee;
-        margin-bottom: 20px;
-    }
-    .identifier-input {
-        margin: 0; 
-        padding: 12px;
-        font-size: 1rem;
-        border-radius: 8px;
-        border: 1px solid #ccc; 
-        background-color: white;
-        transition: border-color 0.2s;
-    }
-    .identifier-input:focus {
-        border-color: var(--primary);
-        outline: none;
-    }
-    .identifier-helper-text {
-        font-size: 0.75rem;
-        color: #888;
-        margin: 5px 0 0 0;
-    }
+/* --- Navigation Buttons (optional) --- */
+.carousel-prev, .carousel-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 10;
+    border-radius: 50%;
+    line-height: 1; /* Center the icon */
+    transition: background 0.2s;
+}
 
-    .cart-total {
-        margin-bottom: 15px;
+.carousel-prev:hover, .carousel-next:hover {
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.carousel-prev {
+    left: 10px;
+}
+
+.carousel-next {
+    right: 10px;
+}
+
+/* --- Navigation Dots (optional) --- */
+.carousel-dots {
+    text-align: center;
+    padding: 10px 0;
+}
+
+.dot {
+    display: inline-block;
+    height: 10px;
+    width: 10px;
+    margin: 0 5px;
+    background-color: #bbb;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.dot.active {
+    background-color: var(--primary, #ff6347); /* Use your primary color */
+    transform: scale(1.2);
+}
+
+/* Hide buttons on mobile for a cleaner, touch-friendly look */
+@media (max-width: 768px) {
+    .carousel-prev, .carousel-next {
+        display: none;
     }
 }
